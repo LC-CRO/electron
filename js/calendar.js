@@ -49,6 +49,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     window.api.invoke('getEvent', cell.dataset.date)
                         .then(event => {
                             if (event) {
+                                console.log(event);
+                                cell.innerText += " " + event.title;
                                 cell.style.backgroundColor = "#a1c5ff";
                             }
                         })
@@ -97,6 +99,7 @@ window.addEventListener('DOMContentLoaded', () => {
             .then(() => {
                 $("#event-modal").modal('hide');
                 generateCalendar(currentMonth, currentYear);
+                update_stats(currentYear, currentMonth);
                 if (title) {
                     document.querySelector(`[data-date="${date}"]`).style.backgroundColor = "#a1c5ff";
                 } else {
@@ -118,6 +121,7 @@ window.addEventListener('DOMContentLoaded', () => {
             .then(() => {
                 $("#event-modal").modal('hide');
                 generateCalendar(currentMonth, currentYear);
+                update_stats(currentYear, currentMonth);
                 document.querySelector(`[data-date="${date}"]`).style.backgroundColor = "transparent";
             })
             .catch(error => {
@@ -141,7 +145,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 currentMonth = date.getMonth();
                 currentYear = date.getFullYear();
                 generateCalendar(currentMonth, currentYear);
-
                 update_stats(currentYear, currentMonth);
                 setInterval(check_databaseoverload, 1000);
             })

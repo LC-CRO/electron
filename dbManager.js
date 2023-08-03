@@ -3,12 +3,14 @@ const mysql = require('mysql2/promise');
 class DBManager {
     constructor() {
         this.currentQueries = 0;
+        this.config = {};
     }
 
     async connect(config) {
+        this.config = config;
         if (!this.connection) {
             try {
-                this.connection = await mysql.createConnection(config.database);
+                this.connection = await mysql.createConnection(this.config.database);
                 console.log("Connecté à la base de données MySQL!");
                 try {
                     await this.createTable();

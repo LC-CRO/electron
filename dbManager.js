@@ -1,30 +1,29 @@
-const mysql = require('mysql2');
-const config = require('./config.js');
+const mysql = require('mysql2/promise');
 
 class DBManager {
     constructor() {
-        this.config = config;
-        this.connection = null;
+        this.currentQueries = 0;
     }
 
-    async connect() {
+    async connect(config) {
         if (!this.connection) {
-            this.connection = mysql.createConnection(this.config.database);
-            this.connection.connect(error => {
-                if (error) {
-                    console.log("Erreur de connexion à la base de données:", error);
-                    this.connection = null;
-                } else {
-                    console.log("Connecté à la base de données MySQL!");
-                    this.createTable()
-                        .then(() => console.log('Table créée ou déjà existante'))
-                        .catch(err => console.log('Erreur lors de la création de la table:', err));
+            try {
+                this.connection = await mysql.createConnection(config.database);
+                console.log("Connecté à la base de données MySQL!");
+                try {
+                    await this.createTable();
+                    console.log('Table créée ou déjà existante');
+                } catch (err) {
+                    console.log('Erreur lors de la création de la table:', err);
                 }
-            });
+            } catch (error) {
+                console.log("Erreur de connexion à la base de données:", error);
+                this.connection = null;
+            }
         }
     }
 
-    createTable() {
+    async createTable() {
         const sql = `
         CREATE TABLE IF NOT EXISTS events (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,65 +32,52 @@ class DBManager {
             UNIQUE KEY (date)
         )
     `;
-
-        return new Promise((resolve, reject) => {
-            this.connection.query(sql, (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-            });
-        });
+        await this.query(sql);
     }
 
-
-    close() {
-        return new Promise((resolve, reject) => {
-            this.connection.end((err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve();
-            });
-        });
+    async close() {
+        await this.connection.end();
     }
 
-    getEvent(date) {
-        return new Promise((resolve, reject) => {
-            this.connection.query('SELECT * FROM events WHERE date = ?', [date], (err, results) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(results[0]);
-            });
-        });
+    async query(sql, params) {
+        this.currentQueries++;
+        try {
+            const result = await this.connection.query(sql, params);
+            this.currentQueries--;
+            return result;
+        } catch (error) {
+            this.currentQueries--;
+            throw error;
+        }
     }
 
-    updateEvent(date, title) {
-        return new Promise((resolve, reject) => {
-            this.connection.query('INSERT INTO events (date, title) VALUES (?, ?) ON DUPLICATE KEY UPDATE title = ?', [date, title, title], (err, results) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(results);
-            });
-        });
+    async getEvent(date) {
+        const [rows] = await this.query('SELECT * FROM events WHERE date = ?', [date]);
+        return rows[0];
     }
 
-    deleteEvent(date) {
-        return new Promise((resolve, reject) => {
-            this.connection.query('DELETE FROM events WHERE date = ?', [date], (err, results) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(results);
-            });
-        });
+    async updateEvent(date, title) {
+        await this.query('INSERT INTO events (date, title) VALUES (?, ?) ON DUPLICATE KEY UPDATE title = ?', [date, title, title]);
+    }
+
+    async deleteEvent(date) {
+        await this.query('DELETE FROM events WHERE date = ?', [date]);
+    }
+
+    async getTotalEvents() {
+        const [rows] = await this.query('SELECT COUNT(*) as total FROM events');
+        return rows[0].total;
+    }
+
+    async getMonthEvents(year, month) {
+        const startOfMonth = new Date(year, month, 1);
+        const endOfMonth = new Date(year, month + 1, 0);
+        const [rows] = await this.query('SELECT COUNT(*) as total FROM events WHERE date BETWEEN ? AND ?', [startOfMonth, endOfMonth]);
+        return rows[0].total;
+    }
+
+    isOverloaded() {
+        return this.currentQueries > this.config.database.maxQueries;
     }
 }
 

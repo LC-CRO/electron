@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="EN-us" class="navbar-dark">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="_token" content="">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Calendar</title>
+
+    <link rel="stylesheet" type="text/css" href="cursegroup/css/cursegroup-dashboard.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fontawesome/v5/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head><body class="g-sidenav-show bg-gray-600 dark-version">
+<div class="min-height-300 bg-primary position-absolute w-100"></div>
+<aside class="sidenav navbar-dark navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div class="sidenav-header text-center ">
+        <img src="img/logo.png" class=" text-center" alt="main_logo" id="navbar_logo_img" style="width: 13rem;">
+        <h3 class="text-danger text-bold mt--4">LC CRO Calendar</h3>
+    </div>
+    <hr class="horizontal dark">
+    <div class="collapse navbar-collapse  w-auto h-auto h-100" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link" id="calendar-link">
+                    <i class="fas fa-calendar text-info"></i> Calendrier
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" id="settings-link">
+                    <i class="fas fa-wrench text-danger"></i> Réglages
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</aside>
+<div class="main-content position-relative border-radius-lg ">
+
+    <div class="container-fluid py-4">
+        <div id="config-section">
+            <h2>Configuration de la base de données</h2>
+
+            <label for="host">Host :</label>
+            <input type="text" id="host">
+
+            <label for="user">Utilisateur :</label>
+            <input type="text" id="user">
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password">
+
+            <label for="database">Base de données :</label>
+            <input type="text" id="database">
+
+            <label for="max-queries">Requêtes maximales :</label>
+            <input type="number" id="max-queries">
+
+            <button id="save-config">Enregistrer la configuration</button>
+        </div>
+
+
+    </div>
+</div>
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/perfect-scrollbar.min.js"></script>
+<script src="js/cursegroup-dashboard.js"></script>
+<script src="js/sweetalert.min.js"></script>
+<script src="js/router.js"></script>
+<script src="js/config.js"></script>
+
+</body>
+</html>

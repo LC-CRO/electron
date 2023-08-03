@@ -1,0 +1,106 @@
+
+
+$yellow: #ffd600;
+
+
+$text-gradient-bg-yellow: linear-gradient(310deg, #141727, #ffd600);
+$yellow-gradient:            #ffd600;
+$yellow-gradient-state:      #f0c900;
+$btn-yellow-font-color:         #fff;
+
+
+$btn-margin-bottom:           0px;
+
+$sidenav-header-width: 16rem;
+$alert-border-width: 0px;
+
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "yellow":    $yellow,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
+    "white":      $white
+);
+
+    // scss-docs-start colors-map
+$colors: (
+    "blue":       $blue,
+    "indigo":     $indigo,
+    "purple":     $purple,
+    "pink":       $pink,
+    "red":        $red,
+    "orange":     $orange,
+    "yellow":     $yellow,
+    "green":      $green,
+    "teal":       $teal,
+    "cyan":       $cyan,
+    "white":      $white,
+    "gray":       $gray-600,
+    "gray-dark":  $gray-800,
+);
+
+$secondary-gradient:          #d5dae0;
+$secondary-gradient-state:    #8392ab; //ne marche peut être pas, verifier css quand quelque temps
+
+//ancien:
+//.text-gradient.text-secondary {
+//    background-image: linear-gradient(310deg, #a8b8d8, #627594);
+//}
+
+    // Gradient Colors map
+$theme-gradient-colors: (
+    "primary":    ($primary-gradient, $primary-gradient-state),
+    "secondary":  ($secondary-gradient, $secondary-gradient-state),
+    "success":    ($success-gradient, $success-gradient-state),
+    "info":       ($info-gradient, $info-gradient-state),
+    "warning":    ($warning-gradient, $warning-gradient-state),
+    "yellow":    ($yellow-gradient, $yellow-gradient-state),
+    "danger":     ($danger-gradient, $danger-gradient-state),
+    "light":      ($light-gradient, $light-gradient-state),
+    "dark":       ($dark-gradient, $dark-gradient-state)
+);
+
+$btn-font-colors: map-merge(
+    (
+        "yellow":       $btn-yellow-font-color,
+
+    ),
+    $btn-font-colors
+);
+
+
+
+.text-gradient {
+    background-clip: $text-gradient-bg-clip;
+    -webkit-background-clip: $text-gradient-bg-clip;
+    -webkit-text-fill-color: $text-gradient-text-fill;
+    position: $text-gradient-position;
+    z-index: $text-gradient-zindex;
+
+    &.text-primary {
+        background-image: $text-gradient-bg-primary;
+    }
+    &.text-info {
+        background-image: $text-gradient-bg-info;
+    }
+    &.text-success {
+        background-image: $text-gradient-bg-success;
+    }
+    &.text-warning {
+        background-image: $text-gradient-bg-warning;
+    }
+    &.text-danger {
+        background-image: $text-gradient-bg-danger;
+    }
+    &.text-dark {
+        background-image: $text-gradient-bg-dark;
+    }
+    &.text-secondary {
+        background-image: $text-gradient-bg-secondary;
+    }
+}

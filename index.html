@@ -1,73 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="EN-us" class="navbar-dark">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src *; object-src *">
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="_token" content="">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>Calendar</title>
-    <link rel="stylesheet" type="text/css" href="https://dev.afe.pmbsoftware.fr/worker/public/cursegroup-dashboard.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
-</head>
-<body class="dark-version">
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-        <h2 id="monthAndYear"></h2>
+    <link rel="stylesheet" type="text/css" href="cursegroup/css/cursegroup-dashboard.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fontawesome/v5/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head><body class="g-sidenav-show bg-gray-600 dark-version">
+<div class="min-height-300 bg-primary position-absolute w-100"></div>
+<aside class="sidenav navbar-dark navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div class="sidenav-header text-center ">
+        <img src="img/logo.png" class=" text-center" alt="main_logo" id="navbar_logo_img" style="width: 13rem;">
+        <h3 class="text-danger text-bold mt--4">LC CRO Calendar</h3>
     </div>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Sun</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-        </tr>
-        </thead>
-        <tbody id="calendar-body"></tbody>
-    </table>
-</div>
+    <hr class="horizontal dark">
+    <div class="collapse navbar-collapse  w-auto h-auto h-100" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
 
-<div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-labelledby="event-modal-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="event-modal-label">Event Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <li class="nav-item">
+                <a class="nav-link active" id="calendar-link">
+                    <i class="fas fa-calendar text-info"></i> Calendrier
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" id="settings-link">
+                    <i class="fas fa-wrench text-danger"></i> Réglages
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</aside>
+<div class="main-content position-relative border-radius-lg ">
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-lg-4 pb-3">
+                <div class="card card-stats shadow h-100">
+                    <div class="card-body">
+                        <div class="row flex-nowrap gx-0">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase font-weight-light mb-0">Connection</h5>
+                                <span id="db-status" class="status-indicator db-disconnected" title="Database status"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form id="event-form">
-                    <div class="form-group">
-                        <label for="event-date" class="col-form-label">Date:</label>
-                        <input type="text" class="form-control" id="event-date" readonly>
+            <div class="col-lg-4 pb-3">
+                <div class="card card-stats shadow h-100">
+                    <div class="card-body">
+                        <div class="row flex-nowrap gx-0">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase font-weight-light mb-0">Evenement </h5>
+                                <p id="event-count"><span id="total-events">0</span></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="event-title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="event-title">
+                </div>
+            </div>
+            <div class="col-lg-4 pb-3">
+                <div class="card card-stats shadow h-100">
+                    <div class="card-body">
+                        <div class="row flex-nowrap gx-0">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase font-weight-light mb-0">Ce moi-ci</h5>
+                                <p id="month-event-count"> <span id="month-events">0</span></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" id="delete-button" class="btn btn-danger">Delete</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-labelledby="event-modal-label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="event-modal-label">Event Details</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </form>
+                    <div class="modal-body">
+                        <form id="event-form">
+                            <div class="form-group">
+                                <label for="event-date" class="col-form-label">Date:</label>
+                                <input type="text" class="form-control" id="event-date" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-title" class="col-form-label">Title:</label>
+                                <input type="text" class="form-control" id="event-title">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" id="delete-button" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="d-flex justify-content-center mb-2">
+            <h2 id="monthAndYear" class="me-3"></h2>
+        </div>
+        <div class="calendar-container">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+                </thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+            <div class="d-flex justify-content-center mb-2">
+                <button id="button-calendar-previous" class="btn btn-primary me-2">Previous</button>
+                <button id="button-calendar-next"  class="btn btn-primary">Next</button>
+            </div>
+        </div>
+
     </div>
 </div>
-
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/perfect-scrollbar.min.js"></script>
 <script src="js/cursegroup-dashboard.js"></script>
 <script src="js/sweetalert.min.js"></script>
-
+<script src="js/router.js"></script>
 <script src="js/calendar.js"></script>
-
 
 </body>
 </html>

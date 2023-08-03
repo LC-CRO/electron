@@ -1,0 +1,20 @@
+/* You can add your styles here */
+.status-indicator {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.db-connected {
+    background-color: #28a745; /* green */
+}
+.db-disconnected {
+    background-color: #dc3545; /* red */
+}
+
+.calendar-container {
+    min-height: 400px; /* Ajustez cette valeur selon vos besoins */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

@@ -1,0 +1,91 @@
+
+//additonnal colors
+.text-yellow {
+    color: $yellow;
+}
+
+.text-gradient {
+    &.text-yellow {
+        background-image: $text-gradient-bg-yellow;
+    }
+}
+
+
+//additionnal grid postiion
+.force-div-bottom {
+    position:absolute;
+    bottom:0;
+}
+
+
+
+//aditionnal dark version
+.dark-version .form-control {
+    background-color: #344767 !important;
+    color: #fff !important;
+}
+
+.dark-version .form-control textarea{
+    color: #fff !important;
+}
+
+.dark-version .input-group-text {
+    background-color: #344767 !important;
+    color: #fff !important;
+}
+
+.dark-version .modal-content {
+    background-color: #051139 !important;
+}
+
+.dark-version .page-link {
+    background-color: #344767 !important;
+}
+
+
+//sweetalert2 dark-version
+
+
+.dark-version .swal2-popup.swal2-toast {
+    background-color: #111C44;
+}
+
+.dark-version .swal2-timer-progress-bar {
+    background-color: #fff;
+}
+
+
+.dark-version .swal2-radio {
+    background-color: #111C44 !important;
+}
+
+
+
+//animation
+
+
+
+.animation-processing {
+    animation: sub-animation-processing 3s infinite;
+
+}
+.animation-processing::after {
+    animation: sub-animation-processing 3s infinite;
+    content: "";
+}
+
+
+@keyframes sub-animation-processing {
+    0%, 100% {
+        content: ''
+    }
+    25% {
+        content: '.'
+    }
+    50% {
+        content: '..'
+    }
+    75% {
+        content: '...'
+    }
+}
